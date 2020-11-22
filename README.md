@@ -2,7 +2,7 @@
 
 This is a CLI tool which search pokemon.
 
-##Install
+## Install
 
 `
 go get github.com/Stern03/poke-get
@@ -16,7 +16,7 @@ go build
 go install
 `
 
-##How to use 
+## How to use 
 
 If you want to search the pokemon which pokedex_id is 155...
 
