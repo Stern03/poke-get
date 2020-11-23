@@ -17,7 +17,12 @@ var trainerCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Short: "trainer name",
 	Run: func(cmd *cobra.Command, args []string) {
-		fetchTrainer(args[0])
+		p := fetchTrainer(args[0])
+
+		for i := 0; i < 4; i++ {
+			pokemon := fetchPokemon(p.PokemonID[i])
+			outputPokemon(pokemon)
+		}
 	},
 }
 
@@ -25,8 +30,8 @@ func init() {
 	rootCmd.AddCommand(trainerCmd)
 }
 
-func fetchTrainer(name string) {
-	bytes, err := ioutil.ReadFile("./trainer.json")
+func fetchTrainer(name string) (train Trainer) {
+	bytes, err := ioutil.ReadFile("../trainer.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,12 +39,10 @@ func fetchTrainer(name string) {
 	if err := json.Unmarshal(bytes, &trainer); err != nil {
 		log.Fatal(err)
 	}
-	for _, p := range trainer {
-		if name == p.Name {
-			for i := 0; i < 4; i++ {
-				pokemon := fetchPokemon(p.PokemonID[i])
-				outputPokemon(pokemon)
-			}
+	for _, train := range trainer {
+		if name == train.Name {
+			return train
 		}
 	}
+	return
 }
